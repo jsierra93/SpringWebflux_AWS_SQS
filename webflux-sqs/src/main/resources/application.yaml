@@ -1,0 +1,16 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: webflux-sqs
+aws:
+  sqs-url: https://sqs.us-east-1.amazonaws.com/047156755745/webflux-sqs
+  accessKey: AKIAJXH4ARB3PASNFBSA
+  secretKey: 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
+  region: us-east-1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics, prometheus
