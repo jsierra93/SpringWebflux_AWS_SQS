@@ -27,6 +27,10 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
+
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.5.RELEASE'
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws-messaging', version: '2.2.5.RELEASE'
+
 }
 
 test {

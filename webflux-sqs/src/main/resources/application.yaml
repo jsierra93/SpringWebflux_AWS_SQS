@@ -3,14 +3,31 @@ server:
 spring:
   application:
     name: webflux-sqs
-aws:
-  sqs-url: https://sqs.us-east-1.amazonaws.com/047156755745/webflux-sqs
-  accessKey: AKIAJXH4ARB3PASNFBSA
-  secretKey: 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
-  region: us-east-1
+
+cloud:
+  aws:
+    region:
+      static: us-east-1
+      auto: true
+    credentials: # dev1234
+      accessKey: AKIAQV6WC7UQTUPIECWC
+      secretKey: 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
+      instanceProfile: false
+    stack:
+      auto: false
+
 
 management:
   endpoints:
     web:
       exposure:
         include: info, health, metrics, prometheus
+    health:
+      show-details: always
+# Para eliminar alerta de EC2MetadataUtils : com.amazonaws.util.EC2MetadataUtils      : Unable to retrieve the requested metadata (/latest/meta-data/instance-id). Failed to connect to service endpoint:
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
