@@ -15,13 +15,13 @@ services:
     container_name: grafana
     ports:
     - "3000:3000"
-
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-    - 8084:8084
     depends_on:
-      - grafana
       - prometheus
+
+  sqs:
+    image: roribio16/alpine-sqs
+    ports:
+    - "9324:9324"
+    - "9325:9325"
+    volumes:
+    - "./src/main/resources/elasticmq.conf:/opt/config/elasticmq.conf"

@@ -1,18 +1,22 @@
 package co.com.jsierra.webfluxsqs;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate;
+import org.springframework.cloud.aws.messaging.listener.Acknowledgment;
 import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
 
 @Component
 @Lazy
+@Slf4j
 public class SpringCloudSQS {
    private static final Logger logger = LoggerFactory.getLogger(SpringCloudSQS.class);
 
@@ -41,6 +45,7 @@ public class SpringCloudSQS {
 
     public void send(Object message) {
         queueMessagingTemplate.convertAndSend(QUEUE_NAME, message);
+        log.info("Send message: {}", message);
     }
 
 
