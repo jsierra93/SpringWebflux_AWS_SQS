@@ -17,10 +17,26 @@ services:
     - "3000:3000"
     depends_on:
       - prometheus
-  sqs:
+
+  sqs-local:
     image: roribio16/alpine-sqs
     ports:
     - "9324:9324"
     - "9325:9325"
     volumes:
     - "./src/main/resources/elasticmq.conf:/opt/config/elasticmq.conf"
+
+  service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+    - "8084:8084"
+    - "9010:9010"
+    restart: always
+    environment:
+      - SQS_ENDPOINT=http://sqs-local:9324
+      # Parametros para monitorear contenedor con visualvm
+      - JAVA_TOOL_OPTIONS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote.rmi.port=9010
+    depends_on:
+      - sqs-local

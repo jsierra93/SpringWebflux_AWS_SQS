@@ -30,20 +30,20 @@ public class SpringCloudSQS {
     /*
     TODO: Obtener el MessageID del mensaje enviado
      */
+
     public Mono<String> send(String message) {
         UUID uuid = UUID.randomUUID();
         StringBuilder msg = new StringBuilder();
-         msg.append(uuid);
-         msg.append(" ");
-         msg.append(message);
+        msg.append(uuid);
+        msg.append(" ");
+        msg.append(message);
         queueMessagingTemplate.convertAndSend(queueName, msg);
-        log.info("Send => message: {}", msg);
-        return  Mono.just(msg.toString());
+        return Mono.just(msg.toString());
     }
 
     @Async
     @SqsListener(value = "${sqs.queue-name}", deletionPolicy = SqsMessageDeletionPolicy.NEVER)
-    public void queueListener(@Payload String message, Acknowledgment ack, @Header("SenderId") String senderId, @Header("MessageId") String messageID ) {
+    public void queueListener(@Payload String message, Acknowledgment ack, @Header("SenderId") String senderId, @Header("MessageId") String messageID) {
         ack.acknowledge();        //Para marcar como leido el mensaje
         log.info("Received => SenderID: {}, MessageID {}, Message {}", senderId, messageID, message);
     }

@@ -6,17 +6,16 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+@Slf4j
 @Configuration
 public class AwsSQSConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AwsSQSConfig.class);
 
     @Value("${sqs.queue-name}")
     private String queueName;
@@ -42,7 +41,9 @@ public class AwsSQSConfig {
     @Primary
     @Bean
     public AmazonSQSAsync amazonSQSAsync(){
+        log.info("*********     Endpoint {}",endpoint);
         AWSCredentials credentials = new BasicAWSCredentials(accessKey,secretKey);
+
         return AmazonSQSAsyncClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, region))
