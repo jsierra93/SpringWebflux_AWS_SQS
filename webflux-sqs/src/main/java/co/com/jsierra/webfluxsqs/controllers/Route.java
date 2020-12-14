@@ -14,9 +14,7 @@ public class Route {
 
     @Bean
     public RouterFunction<ServerResponse> router(Handler handler) {
-        return route(
-                GET("/test").and(accept(MediaType.APPLICATION_JSON)), handler::test)
-                .andRoute(POST("/send").and(accept(MediaType.APPLICATION_JSON)), handler::send);
+        return route(POST("/send").and(accept(MediaType.APPLICATION_JSON)), handler::send);
     }
 
 
